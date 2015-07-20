@@ -10,6 +10,7 @@ class Factory(object):
         return {
             'album': models.AlbumSimplified,
             'artist': models.ArtistSimplified,
+            'category': models.Category,
             'playlist': models.PlaylistSimplified,
             'track': models.TrackSimplified,
         }[type]

@@ -17,8 +17,11 @@ class Paging(httplib.HTTPSConnection, object):
         # Assign fqdn as host
         host = urlparse(href).netloc
         super(Paging, self).__init__(host)
-        # The model type returned via the API.
-        type = items[0]['type']
+        # The model type returned via the API. As of right now, the
+        # `Category` object does not contain a `type` attribute.
+        # Therefore, if the item does not contain a `type` attribute,
+        # set the default to `category`.
+        type = items[0].get('type', 'category')
         # Return appropriate class via HTTP response content.
         klass = helpers.Factory.build(type)
         self.items = [klass(**item) for item in items]
@@ -171,11 +174,11 @@ class Category(object):
         self.id = id
         self.name = name
 
-    def __unicode__(self):
-        return u'{}:{}'.format(self.__class__.__name__, self.name)
-
     def __str__(self):
-        return unicode(self).encode('utf8')
+        return '{}:{}'.format(self.__class__.__name__, self.name)
+
+    def __repr__(self):
+        return '{}:{}'.format(self.__class__.__name__, self.name)
 
 
 class Copyright(object):
@@ -393,3 +396,31 @@ class UserPublic(object):
 
     def __repr__(self):
         return unicode(self).encode('utf8')
+
+
+class UserPrivate(UserPublic):
+    def __init__(self,
+                 birthdate=None,
+                 country=None,
+                 display_name=None,
+                 email=None,
+                 external_urls={},
+                 followers=None,
+                 href=None,
+                 id=None,
+                 images=[],
+                 product=None,
+                 type=None,
+                 uri=None):
+        super(UserPrivate, self).__init__(display_name,
+                                          external_urls,
+                                          followers,
+                                          href,
+                                          id,
+                                          images,
+                                          type,
+                                          uri)
+        self.birthdate = birthdate
+        self.country = country
+        self.email = email
+        self.product = product

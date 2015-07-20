@@ -94,6 +94,21 @@ class Spotify(object):
         res = self._request('GET', url, **kwargs)
         return models.Paging(**res['categories'])
 
+    def get_category(self, id=None, **kwargs):
+        url = self.BaseUri + '/browse/categories/{id}'.format(id=id)
+        res = self._request('GET', url, **kwargs)
+        return models.Category(**res)
+
+    def get_categorys_playlists(self, id=None, **kwargs):
+        url = self.BaseUri + '/browse/categories/{id}/playlists'.format(id=id)
+        res = self._request('GET', url, **kwargs)
+        return models.Paging(**res['playlists'])
+
+    def get_current_users_profile(self):
+        url = self.BaseUri + '/me'
+        res = self._request('GET', url)
+        return models.UserPrivate(**res)
+
     def get_track(self, id=None, **kwargs):
         url = self.BaseUri + '/tracks/{id}'.format(id=id)
         res = self._request('GET', url, **kwargs)
