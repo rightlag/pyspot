@@ -10,8 +10,6 @@ Released: 19-Jul-2015
 
 pyspot is a Python package that provides an interface to the [Spotify RESTful web API](https://developer.spotify.com/web-api/).
 
-Currently, this SDK does **not** provide methods to access all endpoints of the Spotify web API. I will continue to add functionality for the rest of the endpoints in due time.
-
 I encourage other developers to create issues and submit pull requests if there exists errors or improvements can be made to the SDK.
 
 # Getting started with pyspot
