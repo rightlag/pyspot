@@ -1,6 +1,6 @@
 import unittest
 
-from src.pyspot import Spotify
+from pyspot import Spotify
 
 
 class SpotifyTestCase(unittest.TestCase):

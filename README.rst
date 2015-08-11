@@ -27,7 +27,7 @@ Credentials can also be stored in a pyspot configuration file.
 # Sample endpoint request
 
     from pyspot import Spotify
-    from exception import SpotifyServerError
+    from pyspot.exception import SpotifyServerError
 
 
     # use credentials from ~/.pyspot configuration file

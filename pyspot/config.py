@@ -4,7 +4,8 @@ import os
 
 
 class Config(object):
-    def __init__(self, attrs={}):
+    def __init__(self):
+        attrs = {}
         try:
             # Load client ID and client secret from environment variables.
             attrs['CLIENT_ID'] = os.environ['SPOTIFY_CLIENT_ID']
