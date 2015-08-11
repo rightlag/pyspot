@@ -14,17 +14,31 @@ class Paging(httplib.HTTPSConnection, object):
                  offset,
                  previous,
                  total):
-        # Assign fqdn as host
+        """The offset-based paging object is a container for a set of
+        objects.
+
+        https://developer.spotify.com/web-api/object-model/#paging-object
+        """
+        # Assign fqdn as host.
         host = urlparse(href).netloc
         super(Paging, self).__init__(host)
-        # The model type returned via the API. As of right now, the
-        # `Category` object does not contain a `type` attribute.
-        # Therefore, if the item does not contain a `type` attribute,
-        # set the default to `category`.
-        type = items[0].get('type', 'category')
-        # Return appropriate class via HTTP response content.
-        klass = helpers.Factory.build(type)
-        self.items = [klass(**item) for item in items]
+        type = items[0].get('type')
+        # Return appropriate class via HTTP response content. The
+        # `Category` and `PlaylistTrack` models do not contain the
+        # `type` attribute. If the `type` is `None`, then the factory
+        # returns the `Category` and `PlaylistTrack` classes. The
+        # `items` attribute then iterates though both classes and tries
+        # to instantiate the correct class based on the response
+        # returned from the request.
+        try:
+            klass = helpers.Factory.build(type)
+            self.items = [klass(**item) for item in items]
+        except TypeError:
+            for kls in klass:
+                try:
+                    self.items = [kls(**item) for item in items]
+                except TypeError:
+                    continue
         self.limit = limit
         self.next = next
         self.offset = offset
@@ -262,6 +276,56 @@ class PlaylistSimplified(object):
 
     def __unicode__(self):
         return u'{}:{}'.format(self.__class__.__name__, self.name)
+
+    def __repr__(self):
+        return unicode(self).encode('utf8')
+
+
+class PlaylistFull(PlaylistSimplified):
+    def __init__(self,
+                 collaborative=None,
+                 description=None,
+                 external_urls={},
+                 followers=None,
+                 href=None,
+                 id=None,
+                 images=[],
+                 name=None,
+                 owner=None,
+                 public=None,
+                 snapshot_id=None,
+                 tracks=None,
+                 type=None,
+                 uri=None):
+        super(PlaylistFull, self).__init__(collaborative,
+                                           external_urls,
+                                           href,
+                                           id,
+                                           images,
+                                           name,
+                                           owner,
+                                           public,
+                                           snapshot_id,
+                                           tracks,
+                                           type,
+                                           uri)
+        self.description = description
+        self.followers = Followers(**followers)
+
+
+class PlaylistTrack(object):
+    def __init__(self,
+                 added_at=None,
+                 added_by=None,
+                 is_local=None,
+                 track=None):
+        self.added_at = added_at
+        self.added_by = UserPublic(**added_by)
+        self.is_local = is_local
+        self.track = TrackFull(**track)
+
+    def __unicode__(self):
+        return u'{}:{}'.format(self.__class__.__name__, self.track.name)
 
     def __repr__(self):
         return unicode(self).encode('utf8')

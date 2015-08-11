@@ -7,10 +7,12 @@ class Factory(object):
     """
     @staticmethod
     def build(type):
-        return {
-            'album': models.AlbumSimplified,
-            'artist': models.ArtistSimplified,
-            'category': models.Category,
-            'playlist': models.PlaylistSimplified,
-            'track': models.TrackSimplified,
-        }[type]
+        if type is None:
+            return (models.Category, models.PlaylistTrack,)
+        else:
+            return {
+                'album': models.AlbumSimplified,
+                'artist': models.ArtistSimplified,
+                'playlist': models.PlaylistSimplified,
+                'track': models.TrackSimplified,
+            }[type]

@@ -14,12 +14,7 @@ class Config(object):
             filepath = os.path.join(os.path.expanduser('~'), '.pyspot')
             if not os.path.exists(filepath):
                 raise exception.SpotifyConfigurationException(
-                    '''
-                    Failed to set client id and client secret. Ensure that
-                    SPOTIFY_CLIENT_ID and SPOTIFY_CLIENT_SECRET are set via
-                    environment variables or a .pyspot configuration exists
-                    in your home directory.
-                    '''
+                    'invalid client id or client secret'
                 )
             with open(filepath, 'rb') as f:
                 try:
