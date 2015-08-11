@@ -2,7 +2,7 @@ import os
 import pyspot
 
 from codecs import open
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -22,5 +22,6 @@ setup(
     classifiers=[
         'Development Status :: 3 - Alpha'
     ],
-    keywords='spotify web-api sdk'
+    keywords='spotify web-api sdk',
+    packages=find_packages(exclude=['test*'])
 )
