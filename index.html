@@ -59,6 +59,11 @@ export SPOTIFY_CLIENT_SECRET="&lt;YOUR_SPOTIFY_CLIENT_SECRET&gt;"
 </li>
 </ol>
 
+<h3>
+<a id="endpoint-requests" class="anchor" href="#endpoint-requests" aria-hidden="true"><span class="octicon octicon-link"></span></a>Endpoint Requests</h3>
+
+<p>pyspot uses the <a href="https://developer.spotify.com/web-api/authorization-guide/#client_credentials_flow">Client Credentials Flow</a> authorization model, which means that only endpoints that do not access user information can be accessed. Therefore, endpoints such as <code>/v1/me</code>, <code>/v1/me/following</code>, <code>/v1/me/following/contains</code>, etc. are <strong>not</strong> supported.</p>
+
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/rightlag/pyspot">Pyspot</a> is maintained by <a href="https://github.com/rightlag">rightlag</a>.</span>
 
