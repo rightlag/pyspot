@@ -1,5 +1,6 @@
 import unittest
 
+from pyspot import models
 from pyspot import Spotify
 
 
@@ -20,3 +21,23 @@ class SpotifyTestCase(unittest.TestCase):
         )
         self.assertFalse(hasattr(track, 'available_markets'))
         self.assertIsNotNone(track.is_playable)
+
+    def test_playlist_full_tracks_attribute_is_instance_of_paging(self):
+        # Assert that the `tracks` attribute of the `PlaylistFull` object is
+        # an instance of the `Paging` class.
+        playlist = self.spotify.get_playlist(
+            user_id='spotify',
+            playlist_id='59ZbFPES4DQwEjBpWHzrtC',
+        )
+        self.assertTrue(isinstance(playlist.tracks, models.Paging))
+
+    def test_pagination_with_paging_object(self):
+        # Assert that paging object supports iteration.
+        tracks = self.spotify.get_albums_tracks(
+            id='6akEvsycLGftJxYudPjmqK',
+            limit=5
+        )
+        self.assertEqual(tracks.limit, 5)
+        if tracks.next:
+            next(tracks)
+            self.assertIsNotNone(tracks.items)

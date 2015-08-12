@@ -319,6 +319,7 @@ class PlaylistFull(PlaylistSimplified):
                                            uri)
         self.description = description
         self.followers = Followers(**followers)
+        self.tracks = Paging(**tracks)
 
 
 class PlaylistTrack(object):
