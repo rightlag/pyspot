@@ -22,6 +22,11 @@ Your credentials can be passed when instantiating the Spotify class. Alternative
 
 Credentials can also be stored in a pyspot configuration file.
 
+    {
+        "SPOTIFY_CLIENT_ID": "<YOUR_SPOTIFY_CLIENT_ID>",
+        "SPOTIFY_CLIENT_SECRET": "<YOUR_SPOTIFY_CLIENT_SECRET>"
+    }
+
 # Sample endpoint request
 
     from pyspot import Spotify
