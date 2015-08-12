@@ -1,3 +1,4 @@
+import exception
 import helpers
 import httplib
 import json
@@ -6,14 +7,17 @@ from urlparse import urlparse
 
 
 class Paging(httplib.HTTPSConnection, object):
+    ResponseError = exception.SpotifyServerError
+
     def __init__(self,
-                 href,
-                 items,
-                 limit,
-                 next,
-                 offset,
-                 previous,
-                 total):
+                 href=None,
+                 items=None,
+                 limit=None,
+                 next=None,
+                 offset=None,
+                 previous=None,
+                 total=None,
+                 headers={}):
         """The offset-based paging object is a container for a set of
         objects.
 
@@ -44,13 +48,17 @@ class Paging(httplib.HTTPSConnection, object):
         self.offset = offset
         self.previous = previous
         self.total = total
+        self.headers = headers
 
     def next(self):
         if self.next:
             url = urlparse(self.next)
             url = url.path + '?' + url.query
-            self.request('GET', url)
+            self.request('GET', url, headers=self.headers)
             res = self.getresponse()
+            if not 200 <= res.status <= 299:
+                # Error in request, raise `SpotifyServerException`.
+                raise self.ResponseError(res.status, res.reason)
             res = json.loads(res.read())
             # Reinitialize the `Paging` object with updated attributes
             # returned from HTTP response.

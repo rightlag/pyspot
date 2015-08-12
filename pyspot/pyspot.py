@@ -171,7 +171,7 @@ class Spotify(object):
         user."""
         url = '/users/{user_id}/playlists'.format(user_id=user_id)
         res = self._request('GET', url, **kwargs)
-        return models.Paging(**res)
+        return models.Paging(headers=self.headers, **res)
 
     def get_playlist(self, user_id=None, playlist_id=None, **kwargs):
         """Get a playlist owned by a Spotify user."""
@@ -190,7 +190,7 @@ class Spotify(object):
             playlist_id=playlist_id
         )
         res = self._request('GET', url, **kwargs)
-        return models.Paging(**res)
+        return models.Paging(headers=self.headers, **res)
 
     def _request(self, method, url, body=None, **kwargs):
         conn = httplib.HTTPSConnection(self.Host)
