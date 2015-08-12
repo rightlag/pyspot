@@ -1,6 +1,8 @@
 /* Font Import */
 @import url(http://fonts.googleapis.com/css?family=Lato:300);
 @import url(http://fonts.googleapis.com/css?family=Crimson+Text:400italic);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
 /* Base */
 * {
     box-sizing: border-box;
@@ -373,4 +375,16 @@ a:hover {
     text-align: center;
     border-bottom: solid 1px #eff0f1;
     padding: 1em 0 2em 0;
+}
+
+@media screen and (max-width: 42em) {
+    .lead-container {
+        padding: .5rem 0 1em 0;
+    }
+
+    .intro-wrap h4 {
+        font: italic 22px/1.25 'Crimson Text', Georgia, serif ;
+        color: #8C8C8C;
+        padding-bottom: .4em;
+    }
 }
