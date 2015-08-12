@@ -41,3 +41,25 @@ Credentials can also be stored in a pyspot configuration file.
         raise e
     print track.name, '-', track.artists[0].name
     Heaven and Hell - William Onyeabor
+
+# Iterating through `Paging` objects
+
+The Spotify Web API contains a [Paging](https://developer.spotify.com/web-api/object-model/#paging-object) object that serves as a container for a set of objects.
+
+To `Paging` object supports iteration by calling the `next` method. An example below shows how to paginate through a list of `Track` objects wrapped in a `Paging` object:
+
+    spotify = Spotify()
+    try:
+        tracks = spotify.get_albums_tracks(
+            id='6akEvsycLGftJxYudPjmqK',
+            limit=1
+        )
+    except pyspot.exception.SpotifyServerError, e:
+        raise e
+    # Print the first element of the track
+    print tracks.items
+    while tracks.next:
+        # If the `next` attribute is not None, continue to iterate through the
+        # `Track` objects.
+        next(tracks)
+        print tracks.items
