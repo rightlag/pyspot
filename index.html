@@ -2,30 +2,41 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>Pyspot by rightlag</title>
+    <title>Pyspot | A Python Spotify SDK</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Vendor Stylesheets -->
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/animate.min.css" media="screen">
+    <!-- Custom Stylesheets -->
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
   <body>
     <section class="page-header">
-      <h1 class="project-name">Pyspot</h1>
+      <h1 class="animated project-name fadeIn"><span class="beating"><i class="fa fa-spotify pulser"></i></span> Pyspot</h1>
       <h2 class="project-tagline">an SDK for interacting with the Spotify web API</h2>
-      <a href="https://github.com/rightlag/pyspot" class="btn">View on GitHub</a>
+      <a href="https://github.com/rightlag/pyspot" class="btn"><i class="fa fa-github-alt"></i> View on GitHub </a>
       <a href="https://github.com/rightlag/pyspot/zipball/master" class="btn">Download .zip</a>
       <a href="https://github.com/rightlag/pyspot/tarball/master" class="btn">Download .tar.gz</a>
     </section>
-
     <section class="main-content">
-      <h3>
-<a id="pyspot" class="anchor" href="#pyspot" aria-hidden="true"><span class="octicon octicon-link"></span></a>pyspot</h3>
+      <div class="lead-container">
+        <div class="intro-wrap">
+            <h4>This repo was made with much <i class="fa fa-headphones beating"></i> + <i class="fa fa-heart-o pulser"></i>.</h4>
+        </div>
+        <div class="github-btn-wrap">
+          <iframe src="https://ghbtns.com/github-btn.html?user=rightlag&repo=pyspot&type=watch&count=true&v=2" frameborder="0" scrolling="0" width="88px" height="20px"></iframe>
+          <iframe src="https://ghbtns.com/github-btn.html?user=rightlag&repo=pyspot&type=star&count=true" frameborder="0" scrolling="0" width="75px" height="20px"></iframe>
+          <iframe src="https://ghbtns.com/github-btn.html?user=rightlag&repo=pyspot&type=fork&count=true" frameborder="0" scrolling="0" width="75px" height="20px"></iframe>
+        </div>
+      </div>
+    </section>
+<h3><a id="pyspot" class="anchor" href="#pyspot" aria-hidden="true"><span class="octicon octicon-link"></span></a>pyspot</h3>
 
 <p>pyspot is a Python SDK that interfaces with the Spotify RESTful Web API. Using pyspot is easy and only requires a <code>client_id</code> and <code>client_secret</code> which can be obtained from <a href="https://developer.spotify.com">Spotify Developer</a>.</p>
 
-<h3>
-<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h3>
+<h3><a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h3>
 
 <p>pyspot can be configured using either a configuration file, setting environmental variables, or passing the <code>client_id</code> and <code>client_secret</code> as keyword arguments when instantiating the <code>Spotify</code> class.</p>
 
@@ -54,8 +65,7 @@ export SPOTIFY_CLIENT_SECRET="&lt;YOUR_SPOTIFY_CLIENT_SECRET&gt;"
 <pre><code>spotify = Spotify(client_id="&lt;YOUR_SPOTIFY_CLIENT_ID&gt;", client_secret="&lt;YOUR_SPOTIFY_CLIENT_SECRET&gt;")
 </code></pre>
 
-<h3>
-<a id="endpoint-requests" class="anchor" href="#endpoint-requests" aria-hidden="true"><span class="octicon octicon-link"></span></a>Endpoint Requests</h3>
+<h3><a id="endpoint-requests" class="anchor" href="#endpoint-requests" aria-hidden="true"><span class="octicon octicon-link"></span></a>Endpoint Requests</h3>
 
 <p>pyspot uses the <a href="https://developer.spotify.com/web-api/authorization-guide/#client_credentials_flow">Client Credentials Flow</a> authorization model, which means that only endpoints that do not access user information can be accessed. Therefore, endpoints such as <code>/v1/me</code>, <code>/v1/me/following</code>, <code>/v1/me/following/contains</code>, etc. are <strong>not</strong> supported.</p>
 
@@ -66,15 +76,10 @@ print album.name # She's So Unusual
 </code></pre>
 
 <p>All objects returned from pyspot are based on the Spotify <a href="https://developer.spotify.com/web-api/object-model/">Web API Object Model</a>.</p>
-
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/rightlag/pyspot">Pyspot</a> is maintained by <a href="https://github.com/rightlag">rightlag</a>.</span>
-
         <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-
     </section>
-
-  
   </body>
 </html>
