@@ -27,22 +27,14 @@ class Paging(httplib.HTTPSConnection, object):
         host = urlparse(href).netloc
         super(Paging, self).__init__(host)
         type = items[0].get('type')
-        # Return appropriate class via HTTP response content. The
-        # `Category` and `PlaylistTrack` models do not contain the
-        # `type` attribute. If the `type` is `None`, then the factory
-        # returns the `Category` and `PlaylistTrack` classes. The
-        # `items` attribute then iterates though both classes and tries
-        # to instantiate the correct class based on the response
-        # returned from the request.
-        try:
-            klass = helpers.Factory.build(type)
-            self.items = [klass(**item) for item in items]
-        except TypeError:
-            for kls in klass:
-                try:
-                    self.items = [kls(**item) for item in items]
-                except TypeError:
-                    continue
+        klasses = helpers.Factory.build(type)
+        # Klass object returns a tuple object - iterate through tuple to
+        # determine the appropriate class to instantiate for each item.
+        for klass in klasses:
+            try:
+                self.items = [klass(**item) for item in items]
+            except TypeError:
+                continue
         self.limit = limit
         self.next = next
         self.offset = offset

@@ -87,3 +87,67 @@ class SpotifyTestCase(unittest.TestCase):
         self.assertEqual(artist_albums.limit, 2)
         for album in artist_albums.items:
             self.assertEqual(album.album_type, 'single')
+
+    def test_get_list_featured_playlists_endpoint_with_params(self):
+        featured_playlists = self.spotify.get_list_featured_playlists(
+            country='US',
+            timestamp='2014-10-23T07:00:00'
+        )
+        self.assertTrue(
+            isinstance(featured_playlists['playlists'], models.Paging)
+        )
+
+    def test_get_list_categories_endpoint(self):
+        categories = self.spotify.get_list_categories()
+        for category in categories.items:
+            self.assertTrue(isinstance(category, models.Category))
+
+    def test_get_categorys_playlists_endpoint_with_params(self):
+        categorys_playlists = self.spotify.get_categorys_playlists(
+            category_id='party',
+            country='BR',
+            limit=2
+        )
+        for playlist in categorys_playlists.items:
+            self.assertTrue(isinstance(playlist, models.PlaylistSimplified))
+
+    def test_search_item_endpoint_with_params(self):
+        # Searching for artists
+        artists = self.spotify.search_item(type='artist', q='tania bowra')
+        for artist in artists.items:
+            self.assertTrue(isinstance(artist, models.ArtistFull))
+        # Searching for artists, using a wildcard
+        artists = self.spotify.search_item(type='artist', q='tania*')
+        for artist in artists.items:
+            self.assertTrue(isinstance(artist, models.ArtistFull))
+        # Searching for artists with name matching "Bob", and offset and limit
+        artists = self.spotify.search_item(
+            type='artist',
+            q='bob',
+            offset=20,
+            limit=2
+        )
+        self.assertEqual(artists.offset, 20)
+        self.assertEqual(artists.limit, 2)
+        for artist in artists.items:
+            self.assertTrue(isinstance(artist, models.ArtistFull))
+        # Searching for albums with name matching "Arrival" and artist
+        # matching "ABBA"
+        albums = self.spotify.search_item(
+            type='album',
+            q='album:arrival artist:abba'
+        )
+        for album in albums.items:
+            self.assertTrue(isinstance(album, models.AlbumSimplified))
+        # Searching for album with specific UPC code
+        albums = self.spotify.search_item(type='album', q='upc:5099908217059')
+        for album in albums.items:
+            self.assertTrue(isinstance(album, models.AlbumSimplified))
+        # Searching for playlists with name or description matching a string
+        playlists = self.spotify.search_item(type='playlist', q='doom metal')
+        for playlist in playlists.items:
+            self.assertTrue(isinstance(playlist, models.PlaylistSimplified))
+        # Searching only for tracks available in a specific market
+        tracks = self.spotify.search_item(type='track', q='abba', market='US')
+        for track in tracks.items:
+            self.assertTrue(isinstance(track, models.TrackFull))

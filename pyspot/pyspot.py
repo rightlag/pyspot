@@ -121,17 +121,21 @@ class Spotify(object):
         res = self._request('GET', url, **kwargs)
         return models.Paging(**res['categories'])
 
-    def get_category(self, id=None, **kwargs):
+    def get_category(self, category_id=None, **kwargs):
         """Get a single category used to tag items in Spotify (on, for
         example, the Spotify player's "Browse" tab)."""
-        url = '/browse/categories/{id}'.format(id=id)
+        url = '/browse/categories/{category_id}'.format(
+            category_id=category_id
+        )
         res = self._request('GET', url, **kwargs)
         return models.Category(**res)
 
-    def get_categorys_playlists(self, id=None, **kwargs):
+    def get_categorys_playlists(self, category_id=None, **kwargs):
         """Get a list of Spotify playlists tagged with a particular
         category."""
-        url = '/browse/categories/{id}/playlists'.format(id=id)
+        url = '/browse/categories/{category_id}/playlists'.format(
+            category_id=category_id
+        )
         res = self._request('GET', url, **kwargs)
         return models.Paging(**res['playlists'])
 
@@ -204,7 +208,7 @@ class Spotify(object):
         conn.request(method, url, body=body, headers=self.headers)
         res = conn.getresponse()
         # 2XX success status code.
-        if not 200 <= res.status <= 299:
+        if not 200 <= res.status < 300:
             # Error in request, raise `SpotifyServerException`.
             raise self.ResponseError(res.status, res.reason)
         res = json.loads(res.read())
