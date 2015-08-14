@@ -195,8 +195,6 @@ class Spotify(object):
     def _request(self, method, url, body=None, **kwargs):
         conn = httplib.HTTPSConnection(self.Host)
         url = self.BaseUri + url
-        # For special characters in URLs.
-        url = urllib.quote(url)
         if kwargs:
             # Additional query parameters. If the url already contains a
             # `?` character, then use an `&` character for additional

@@ -94,6 +94,11 @@ class AlbumSimplified(object):
         self.type = type
         self.uri = uri
 
+        if not available_markets:
+            # For track relinking purposes.
+            # See: https://developer.spotify.com/web-api/track-relinking-guide/
+            del self.available_markets
+
     def __unicode__(self):
         return u'{}:{}'.format(self.__class__.__name__, self.name)
 
