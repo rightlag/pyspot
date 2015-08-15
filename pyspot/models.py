@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import exception
 import helpers
 import httplib
