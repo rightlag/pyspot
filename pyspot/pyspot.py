@@ -23,8 +23,8 @@ class Spotify(object):
         else:
             config = Config()
             self.token = Token(
-                client_id=config.attrs['CLIENT_ID'],
-                client_secret=config.attrs['CLIENT_SECRET']
+                client_id=config.get('CLIENT_ID'),
+                client_secret=config.get('CLIENT_SECRET')
             )
         # Set the bearer for each HTTP request regardless if OAuth is
         # required or not.
@@ -121,17 +121,21 @@ class Spotify(object):
         res = self._request('GET', url, **kwargs)
         return models.Paging(**res['categories'])
 
-    def get_category(self, id=None, **kwargs):
+    def get_category(self, category_id=None, **kwargs):
         """Get a single category used to tag items in Spotify (on, for
         example, the Spotify player's "Browse" tab)."""
-        url = '/browse/categories/{id}'.format(id=id)
+        url = '/browse/categories/{category_id}'.format(
+            category_id=category_id
+        )
         res = self._request('GET', url, **kwargs)
         return models.Category(**res)
 
-    def get_categorys_playlists(self, id=None, **kwargs):
+    def get_categorys_playlists(self, category_id=None, **kwargs):
         """Get a list of Spotify playlists tagged with a particular
         category."""
-        url = '/browse/categories/{id}/playlists'.format(id=id)
+        url = '/browse/categories/{category_id}/playlists'.format(
+            category_id=category_id
+        )
         res = self._request('GET', url, **kwargs)
         return models.Paging(**res['playlists'])
 
@@ -173,32 +177,30 @@ class Spotify(object):
         res = self._request('GET', url, **kwargs)
         return models.Paging(headers=self.headers, **res)
 
-    def get_playlist(self, user_id=None, playlist_id=None, **kwargs):
+    def get_playlist(self, user_id=None, playlist_id=None):
         """Get a playlist owned by a Spotify user."""
         url = '/users/{user_id}/playlists/{playlist_id}'.format(
             user_id=user_id,
             playlist_id=playlist_id
         )
-        res = self._request('GET', url, **kwargs)
+        res = self._request('GET', url)
         return models.PlaylistFull(**res)
 
-    def get_playlists_tracks(self, user_id=None, playlist_id=None, **kwargs):
+    def get_playlists_tracks(self, user_id=None, playlist_id=None):
         """Get full details of the tracks of a playlist owned by a
         Spotify user."""
         url = '/users/{user_id}/playlists/{playlist_id}/tracks'.format(
             user_id=user_id,
             playlist_id=playlist_id
         )
-        res = self._request('GET', url, **kwargs)
+        res = self._request('GET', url)
         return models.Paging(headers=self.headers, **res)
 
     def _request(self, method, url, body=None, **kwargs):
         conn = httplib.HTTPSConnection(self.Host)
         url = self.BaseUri + url
-        # For special characters in URLs.
-        url = urllib.quote(url)
         if kwargs:
-            # Additional query parameters. If the url already contains a
+            # Additional query parameters. If the URL already contains a
             # `?` character, then use an `&` character for additional
             # query parameters.
             url += '?' if '?' not in url else '&'
@@ -206,8 +208,8 @@ class Spotify(object):
         conn.request(method, url, body=body, headers=self.headers)
         res = conn.getresponse()
         # 2XX success status code.
-        if not 200 <= res.status <= 299:
-            # Error in request, raise `SpotifyServerException`.
+        if not 200 <= res.status < 300:
+            # Error in request - raise `SpotifyServerException`.
             raise self.ResponseError(res.status, res.reason)
         res = json.loads(res.read())
         return res
