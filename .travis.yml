@@ -1,4 +1,4 @@
 language: python
 install:
-  - pip install -q nosetests
+  - pip install -q nose
 script: nosetests tests.test_pyspot
