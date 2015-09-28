@@ -151,3 +151,24 @@ class SpotifyTestCase(unittest.TestCase):
         tracks = self.spotify.search_item(type='track', q='abba', market='US')
         for track in tracks.items:
             self.assertTrue(isinstance(track, models.TrackFull))
+
+    def test_get_users_profile_endpoint(self):
+        user = self.spotify.get_users_profile(user_id='tuggareutangranser')
+        self.assertTrue(isinstance(user, models.UserPublic))
+        self.assertTrue(isinstance(user.followers, models.Followers))
+
+    def test_get_list_users_playlists_endpoint(self):
+        users_playlists = self.spotify.get_list_users_playlists(
+            user_id='wizzler'
+        )
+        for playlist in users_playlists.items:
+            self.assertTrue(isinstance(playlist, models.PlaylistSimplified))
+
+    def test_get_playlist_endpoint_with_params(self):
+        playlist = self.spotify.get_playlist(
+            user_id='spotify',
+            playlist_id='59ZbFPES4DQwEjBpWHzrtC'
+        )
+        self.assertTrue(isinstance(playlist, models.PlaylistFull))
+        for track in playlist.tracks.items:
+            self.assertTrue(isinstance(track, models.PlaylistTrack))
