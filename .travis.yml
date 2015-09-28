@@ -1,2 +1,4 @@
 language: python
-script: nosetests tests.test_timely
+install:
+  - pip install -q nosetests
+script: nosetests tests.test_pyspot
