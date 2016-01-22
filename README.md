@@ -20,7 +20,7 @@ Your credentials can be passed when instantiating the Spotify class. Alternative
 
 **SPOTIFY_CLIENT_SECRET** - Your Spotify client secret
 
-Credentials can also be stored in a pyspot configuration file.
+Credentials can also be stored in a `~/.pyspot` configuration file.
 
 ```json
 {
