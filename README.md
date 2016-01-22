@@ -22,25 +22,28 @@ Your credentials can be passed when instantiating the Spotify class. Alternative
 
 Credentials can also be stored in a pyspot configuration file.
 
-    {
-        "SPOTIFY_CLIENT_ID": "<YOUR_SPOTIFY_CLIENT_ID>",
-        "SPOTIFY_CLIENT_SECRET": "<YOUR_SPOTIFY_CLIENT_SECRET>"
-    }
+```json
+{
+    "SPOTIFY_CLIENT_ID": "<YOUR_SPOTIFY_CLIENT_ID>",
+    "SPOTIFY_CLIENT_SECRET": "<YOUR_SPOTIFY_CLIENT_SECRET>"
+}
+```
 
 # Sample endpoint request
 
-    from pyspot import Spotify
-    from pyspot.exception import SpotifyServerError
+```python
+from pyspot import Spotify
+from pyspot.exception import SpotifyServerError
 
 
-    # use credentials from ~/.pyspot configuration file
-    spotify = Spotify()
-    try:
-        track = spotify.get_track(id='6kLCHFM39wkFjOuyPGLGeQ', market='US')
-    except SpotifyServerError, e:
-        raise e
-    print track.name, '-', track.artists[0].name
-    Heaven and Hell - William Onyeabor
+# use credentials from ~/.pyspot configuration file
+spotify = Spotify()
+try:
+    track = spotify.get_track(id='6kLCHFM39wkFjOuyPGLGeQ', market='US')
+except SpotifyServerError, e:
+    raise e
+print track.name, '-', track.artists[0].name # Heaven and Hell - William Onyeabor
+```
 
 # Iterating through `Paging` objects
 
@@ -48,18 +51,23 @@ The Spotify Web API contains a [Paging](https://developer.spotify.com/web-api/ob
 
 To `Paging` object supports iteration by calling the `next` method. An example below shows how to paginate through a list of `Track` objects wrapped in a `Paging` object:
 
-    spotify = Spotify()
-    try:
-        tracks = spotify.get_albums_tracks(
-            id='6akEvsycLGftJxYudPjmqK',
-            limit=1
-        )
-    except pyspot.exception.SpotifyServerError, e:
-        raise e
-    # Print the first element of the track
+```python
+from pyspot import Spotify
+from pyspot.exception import SpotifyServerError
+
+spotify = Spotify()
+try:
+    tracks = spotify.get_albums_tracks(
+        id='6akEvsycLGftJxYudPjmqK',
+        limit=1
+    )
+except pyspot.exception.SpotifyServerError, e:
+    raise e
+# Print the first element of the track
+print tracks.items
+while tracks.next:
+    # If the `next` attribute is not None, continue to iterate through the
+    # `Track` objects.
+    next(tracks)
     print tracks.items
-    while tracks.next:
-        # If the `next` attribute is not None, continue to iterate through the
-        # `Track` objects.
-        next(tracks)
-        print tracks.items
+```

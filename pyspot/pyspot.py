@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import exception
 import httplib
 import json
@@ -197,6 +198,8 @@ class Spotify(object):
         return models.Paging(headers=self.headers, **res)
 
     def _request(self, method, url, body=None, **kwargs):
+        """Method for instantiating HTTP requests and returning
+        deserialized output"""
         conn = httplib.HTTPSConnection(self.Host)
         url = self.BaseUri + url
         if kwargs:
@@ -208,7 +211,7 @@ class Spotify(object):
         conn.request(method, url, body=body, headers=self.headers)
         res = conn.getresponse()
         # 2XX success status code.
-        if not 200 <= res.status < 300:
+        if res.status not in range(200, 300):
             # Error in request - raise `SpotifyServerException`.
             raise self.ResponseError(res.status, res.reason)
         res = json.loads(res.read())
@@ -218,4 +221,4 @@ class Spotify(object):
         return '{}'.format(self.__class__.__name__)
 
     def __repr__(self):
-        return '{}'.format(self.__class__.__name__)
+        return str(self)

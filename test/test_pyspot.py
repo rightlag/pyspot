@@ -120,7 +120,7 @@ class SpotifyTestCase(unittest.TestCase):
         artists = self.spotify.search_item(type='artist', q='tania*')
         for artist in artists.items:
             self.assertTrue(isinstance(artist, models.ArtistFull))
-        # Searching for artists with name matching "Bob", and offset and limit
+        # Searching for artists with name matching "Bob", and offset, and limit
         artists = self.spotify.search_item(
             type='artist',
             q='bob',
